@@ -30,7 +30,11 @@ const AVAILABLE_MODELS: AppModelId[] = [
 export const ANONYMOUS_LIMITS = {
   CREDITS: process.env.NODE_ENV === "production" ? 10 : 1000,
   AVAILABLE_MODELS,
-  AVAILABLE_TOOLS: ["createDocument", "updateDocument"] satisfies ToolName[],
+  AVAILABLE_TOOLS: [
+    "createDocument",
+    "updateDocument",
+    "getHnComments",
+  ] satisfies ToolName[],
   SESSION_DURATION: 2_147_483_647, // Max session time
   // Rate limiting for anonymous users based on IP
   RATE_LIMIT: {

@@ -1,7 +1,7 @@
 {
-  "name": "Sparka AI - Production-Ready AI Chat Template",
-  "short_name": "Sparka AI",
-  "description": "Build your own multi-model AI chat app with 120+ models, authentication, streaming, and advanced features.",
+  "name": "HN Comments Summarizer - Summarize Hacker News Discussions",
+  "short_name": "HN Summarizer",
+  "description": "Summarize and analyze Hacker News comment threads. Get insights, key points, and sentiment analysis from HN discussions.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

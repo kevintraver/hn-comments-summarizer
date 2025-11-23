@@ -63,30 +63,6 @@ function updateDocumentIdInPart(
   return newDocId;
 }
 
-function transformDeepResearchPart(
-  part: ChatMessage["parts"][number],
-  documentIdMap: Map<string, string>
-): ChatMessage["parts"][number] {
-  if (part.type !== "tool-deepResearch") {
-    return part;
-  }
-  if (part.state !== "output-available") {
-    return part;
-  }
-  if (part.output?.format !== "report") {
-    return part;
-  }
-  const oldDocId = part.output.id;
-  const newDocId = updateDocumentIdInPart(oldDocId, documentIdMap);
-  return {
-    ...part,
-    output: {
-      ...part.output,
-      id: newDocId,
-    },
-  };
-}
-
 function transformUpdateDocumentPart(
   part: ChatMessage["parts"][number],
   documentIdMap: Map<string, string>
@@ -136,9 +112,6 @@ function transformPartWithDocumentId(
   part: ChatMessage["parts"][number],
   documentIdMap: Map<string, string>
 ): ChatMessage["parts"][number] {
-  if (part.type === "tool-deepResearch") {
-    return transformDeepResearchPart(part, documentIdMap);
-  }
   if (part.type === "tool-updateDocument") {
     return transformUpdateDocumentPart(part, documentIdMap);
   }

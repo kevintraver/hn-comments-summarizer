@@ -252,15 +252,6 @@ async function handleChatValidation({
 function determineExplicitlyRequestedTools(
   selectedTool: string | null
 ): ToolName[] | null {
-  if (selectedTool === "deepResearch") {
-    return ["deepResearch"];
-  }
-  if (selectedTool === "webSearch") {
-    return ["webSearch"];
-  }
-  if (selectedTool === "generateImage") {
-    return ["generateImage"];
-  }
   if (selectedTool === "createDocument") {
     return ["createDocument", "updateDocument"];
   }
@@ -350,17 +341,7 @@ function determineActiveTools({
   );
 
   // Disable all tools for models with unspecified features
-  if (modelDefinition?.input) {
-    // Let's not allow deepResearch if the model support reasoning (it's expensive and slow)
-    if (
-      modelDefinition.reasoning &&
-      activeTools.some((tool: ToolName) => tool === "deepResearch")
-    ) {
-      activeTools = activeTools.filter(
-        (tool: ToolName) => tool !== "deepResearch"
-      );
-    }
-  } else {
+  if (!modelDefinition?.input) {
     activeTools = [];
   }
 
@@ -477,16 +458,11 @@ async function createChatStream({
   // Validate and narrow selectedTool type using type guard
   function isValidToolName(value: string): value is ToolName {
     const validTools: readonly string[] = [
-      "getWeather",
       "createDocument",
       "updateDocument",
       "requestSuggestions",
-      "deepResearch",
       "readDocument",
-      "generateImage",
-      "webSearch",
-      "codeInterpreter",
-      "retrieve",
+      "getHnComments",
     ];
     return validTools.includes(value);
   }

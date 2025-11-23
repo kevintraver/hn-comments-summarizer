@@ -1,8 +1,7 @@
 "use client";
-import { type Dispatch, type SetStateAction, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useSaveDocument } from "@/hooks/chat-sync-hooks";
 import { useArtifact } from "@/hooks/use-artifact";
-import type { UiToolName } from "@/lib/ai/types";
 import type { Suggestion } from "@/lib/db/schema";
 import { useChatInput } from "@/providers/chat-input-provider";
 import { useSession } from "@/providers/session-provider";
@@ -24,23 +23,6 @@ export type DataStreamDelta = {
     | "kind";
   content: string | Suggestion;
 };
-
-function handleResearchUpdate({
-  delta,
-  setSelectedTool,
-}: {
-  delta: any;
-  setSelectedTool: Dispatch<SetStateAction<UiToolName | null>>;
-}): void {
-  if (delta.type === "data-researchUpdate") {
-    const update: any = (delta as any).data;
-    if (update?.type === "completed") {
-      setSelectedTool((current) =>
-        current === "deepResearch" ? null : current
-      );
-    }
-  }
-}
 
 function processArtifactStreamPart({
   delta,
@@ -164,8 +146,6 @@ export function DataStreamHandler({ id: _id }: { id: string }) {
     lastProcessedIndex.current = dataStream.length - 1;
 
     for (const delta of newDeltas) {
-      handleResearchUpdate({ delta, setSelectedTool });
-
       processArtifactStreamPart({
         delta,
         artifact,

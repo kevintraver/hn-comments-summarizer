@@ -34,24 +34,7 @@ export function ProjectChatPageRouter() {
     );
   }, [messages]);
 
-  const initialTool = useMemo<UiToolName | null>(() => {
-    const lastAssistantMessage = messages?.findLast(
-      (m) => m.role === "assistant"
-    );
-    if (!(lastAssistantMessage && Array.isArray(lastAssistantMessage.parts))) {
-      return null;
-    }
-    for (const part of lastAssistantMessage.parts) {
-      if (
-        part?.type === "tool-deepResearch" &&
-        part?.state === "output-available" &&
-        part?.output?.format === "clarifying_questions"
-      ) {
-        return "deepResearch";
-      }
-    }
-    return null;
-  }, [messages]);
+  const initialTool = useMemo<UiToolName | null>(() => null, []);
 
   if (!id) {
     return notFound();

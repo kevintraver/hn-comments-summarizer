@@ -1,7 +1,6 @@
 import { convertToModelMessages, stepCountIs, streamText } from "ai";
 import { addExplicitToolRequestToMessages } from "@/app/(chat)/api/chat/add-explicit-tool-request-to-messages";
 import { filterReasoningParts } from "@/app/(chat)/api/chat/filter-reasoning-parts";
-import { getRecentGeneratedImage } from "@/app/(chat)/api/chat/get-recent-generated-image";
 import { type AppModelId, getAppModelDefinition } from "@/lib/ai/app-models";
 import { markdownJoinerTransform } from "@/lib/ai/markdown-joiner-transform";
 import { getLanguageModel, getModelProviderOptions } from "@/lib/ai/providers";
@@ -39,17 +38,8 @@ export async function createCoreChatAgent({
   // Build message thread
   const messages = [...previousMessages, userMessage].slice(-5);
 
-  // Process conversation history
-  const lastGeneratedImage = getRecentGeneratedImage(messages);
-
   let explicitlyRequestedTools: ToolName[] | null = null;
-  if (selectedTool === "deepResearch") {
-    explicitlyRequestedTools = ["deepResearch"];
-  } else if (selectedTool === "webSearch") {
-    explicitlyRequestedTools = ["webSearch"];
-  } else if (selectedTool === "generateImage") {
-    explicitlyRequestedTools = ["generateImage"];
-  } else if (selectedTool === "createDocument") {
+  if (selectedTool === "createDocument") {
     explicitlyRequestedTools = ["createDocument", "updateDocument"];
   }
 
@@ -74,21 +64,7 @@ export async function createCoreChatAgent({
     model: getLanguageModel(modelDefinition.apiModelId),
     system,
     messages: contextForLLM,
-    stopWhen: [
-      stepCountIs(5),
-      ({ steps }) => {
-        return steps.some((step) => {
-          const toolResults = step.content;
-          // Don't stop if the tool result is a clarifying question
-          return toolResults.some(
-            (toolResult) =>
-              toolResult.type === "tool-result" &&
-              toolResult.toolName === "deepResearch" &&
-              (toolResult.output as { format?: string }).format === "report"
-          );
-        });
-      },
-    ],
+    stopWhen: [stepCountIs(5)],
     activeTools,
     experimental_transform: markdownJoinerTransform(),
     experimental_telemetry: {
@@ -107,7 +83,7 @@ export async function createCoreChatAgent({
       messageId,
       selectedModel: modelDefinition.apiModelId,
       attachments: userMessage.parts.filter((part) => part.type === "file"),
-      lastGeneratedImage,
+      lastGeneratedImage: null,
     }),
     onError,
     abortSignal,

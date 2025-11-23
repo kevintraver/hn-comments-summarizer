@@ -13,8 +13,7 @@ export const isLastArtifact = (
       for (const part of message.parts) {
         if (
           (part.type === "tool-createDocument" ||
-            part.type === "tool-updateDocument" ||
-            part.type === "tool-deepResearch") &&
+            part.type === "tool-updateDocument") &&
           part.state === "output-available"
         ) {
           lastArtifact = {

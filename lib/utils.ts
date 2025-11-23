@@ -47,8 +47,7 @@ export function findLastArtifact(
     msg.parts?.forEach((part) => {
       if (
         (part.type === 'tool-createDocument' ||
-          part.type === 'tool-updateDocument' ||
-          part.type === 'tool-deepResearch') &&
+          part.type === 'tool-updateDocument') &&
         part.state === 'output-available'
       ) {
         allArtifacts.push({

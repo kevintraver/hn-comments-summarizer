@@ -5,16 +5,10 @@ import type {
   UIMessageStreamWriter,
 } from "ai";
 import { z } from "zod";
-import type { codeInterpreter } from "@/lib/ai/tools/code-interpreter";
-import type { deepResearch } from "@/lib/ai/tools/deep-research/deep-research";
-import type { generateImage } from "@/lib/ai/tools/generate-image";
 import type { getHnComments } from "@/lib/ai/tools/get-hn-comments";
-import type { getWeather } from "@/lib/ai/tools/get-weather";
 import type { readDocument } from "@/lib/ai/tools/read-document";
 import type { requestSuggestions } from "@/lib/ai/tools/request-suggestions";
-import type { retrieve } from "@/lib/ai/tools/retrieve";
 import type { updateDocument } from "@/lib/ai/tools/update-document";
-import type { tavilyWebSearch } from "@/lib/ai/tools/web-search";
 import type { Suggestion } from "@/lib/db/schema";
 import type { ArtifactKind } from "../artifacts/artifact-kind";
 import type { AppModelId } from "./app-models";
@@ -22,16 +16,10 @@ import type { createDocumentTool as createDocument } from "./tools/create-docume
 import type { ResearchUpdate } from "./tools/research-updates-schema";
 
 export const toolNameSchema = z.enum([
-  "getWeather",
   "createDocument",
   "updateDocument",
   "requestSuggestions",
   "readDocument",
-  "retrieve",
-  "webSearch",
-  "codeInterpreter",
-  "generateImage",
-  "deepResearch",
   "getHnComments",
 ]);
 
@@ -39,12 +27,7 @@ const _ = toolNameSchema.options satisfies ToolName[];
 
 type ToolNameInternal = z.infer<typeof toolNameSchema>;
 
-export const frontendToolsSchema = z.enum([
-  "webSearch",
-  "deepResearch",
-  "generateImage",
-  "createDocument",
-]);
+export const frontendToolsSchema = z.enum(["createDocument"]);
 
 const __ = frontendToolsSchema.options satisfies ToolNameInternal[];
 
@@ -60,31 +43,19 @@ export const messageMetadataSchema = z.object({
 
 export type MessageMetadata = z.infer<typeof messageMetadataSchema>;
 
-type weatherTool = InferUITool<typeof getWeather>;
 type createDocumentTool = InferUITool<ReturnType<typeof createDocument>>;
 type updateDocumentTool = InferUITool<ReturnType<typeof updateDocument>>;
 type requestSuggestionsTool = InferUITool<
   ReturnType<typeof requestSuggestions>
 >;
-type deepResearchTool = InferUITool<ReturnType<typeof deepResearch>>;
 type readDocumentTool = InferUITool<ReturnType<typeof readDocument>>;
-type generateImageTool = InferUITool<ReturnType<typeof generateImage>>;
-type webSearchTool = InferUITool<ReturnType<typeof tavilyWebSearch>>;
-type codeInterpreterTool = InferUITool<typeof codeInterpreter>;
-type retrieveTool = InferUITool<typeof retrieve>;
 type getHnCommentsTool = InferUITool<typeof getHnComments>;
 
 export type ChatTools = {
-  getWeather: weatherTool;
   createDocument: createDocumentTool;
   updateDocument: updateDocumentTool;
   requestSuggestions: requestSuggestionsTool;
-  deepResearch: deepResearchTool;
   readDocument: readDocumentTool;
-  generateImage: generateImageTool;
-  webSearch: webSearchTool;
-  codeInterpreter: codeInterpreterTool;
-  retrieve: retrieveTool;
   getHnComments: getHnCommentsTool;
 };
 

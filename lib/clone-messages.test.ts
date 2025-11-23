@@ -140,19 +140,6 @@ describe("cloneMessagesWithDocuments", () => {
           success: true,
         },
       },
-      {
-        type: "tool-deepResearch",
-        toolCallId: "call-deep",
-        state: "output-available",
-        input: {},
-        output: {
-          id: "doc-1",
-          title: "Doc title",
-          kind: "text",
-          content: "Deep research report content",
-          format: "report",
-        },
-      },
     ];
 
     const sourceDocuments = [
@@ -196,8 +183,7 @@ describe("cloneMessagesWithDocuments", () => {
     for (const part of clonedMessage.parts) {
       if (
         (part.type === "tool-createDocument" ||
-          part.type === "tool-updateDocument" ||
-          part.type === "tool-deepResearch") &&
+          part.type === "tool-updateDocument") &&
         part.state === "output-available" &&
         part.output &&
         "id" in part.output

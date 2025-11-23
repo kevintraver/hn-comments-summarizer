@@ -112,15 +112,10 @@ export function ChatInputProvider({
   const handleModelChange = useCallback(
     async (modelId: AppModelId) => {
       const modelDef = getAppModelDefinition(modelId);
-      const hasReasoning = modelDef.reasoning === true;
       const hasUnspecifiedFeatures = !modelDef.input;
 
       // If switching to a model with unspecified features, disable all tools
       if (hasUnspecifiedFeatures && selectedTool !== null) {
-        setSelectedTool(null);
-      }
-      // If switching to a reasoning model and deep research is selected, disable it
-      else if (hasReasoning && selectedTool === "deepResearch") {
         setSelectedTool(null);
       }
 
@@ -178,12 +173,9 @@ export function ChatInputProvider({
         clearInput();
       }
 
-      // deepResearch stays active until the research process completes (handled via DataStreamHandler)
-      if (selectedTool !== "deepResearch") {
-        resetData();
-      }
+      resetData();
     },
-    [clearAttachments, clearInput, selectedTool, resetData]
+    [clearAttachments, clearInput, resetData]
   );
 
   return (

@@ -52,10 +52,6 @@ export function ResponsiveTools({
   const activeTool = tools;
 
   const setTool = (tool: UiToolName | null) => {
-    if (tool === "deepResearch" && hasReasoningModel) {
-      return;
-    }
-
     if (hasUnspecifiedFeatures && tool !== null) {
       return;
     }
@@ -88,7 +84,7 @@ export function ResponsiveTools({
           </Tooltip>
           <PopoverContent align="start" className="w-80 p-0">
             <LoginPrompt
-              description="Access web search, deep research, and more to get better answers."
+              description="Access tools to get better answers."
               title="Sign in to use Tools"
             />
           </PopoverContent>
@@ -118,10 +114,7 @@ export function ResponsiveTools({
           >
             {enabledTools.map((key) => {
               const tool = toolDefinitions[key];
-              const isDeepResearchDisabled =
-                key === "deepResearch" && hasReasoningModel;
-              const isToolDisabled =
-                hasUnspecifiedFeatures || isDeepResearchDisabled;
+              const isToolDisabled = hasUnspecifiedFeatures;
               const Icon = tool.icon;
               return (
                 <DropdownMenuItem
@@ -140,11 +133,6 @@ export function ResponsiveTools({
                   )}
                   {hasUnspecifiedFeatures && (
                     <span className="text-xs opacity-60">(not supported)</span>
-                  )}
-                  {!hasUnspecifiedFeatures && isDeepResearchDisabled && (
-                    <span className="text-xs opacity-60">
-                      (for non-reasoning models)
-                    </span>
                   )}
                 </DropdownMenuItem>
               );

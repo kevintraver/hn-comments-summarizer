@@ -12,7 +12,7 @@ export const Greeting = () => (
       initial={{ opacity: 0, y: 10 }}
       transition={{ delay: 0.5 }}
     >
-      Hello there!
+      I'm here to help you summarize Hacker News comments.
     </motion.div>
     <motion.div
       animate={{ opacity: 1, y: 0 }}
@@ -21,7 +21,7 @@ export const Greeting = () => (
       initial={{ opacity: 0, y: 10 }}
       transition={{ delay: 0.6 }}
     >
-      How can I help you today?
+      Paste a Hacker News URL to get started.
     </motion.div>
   </div>
 );

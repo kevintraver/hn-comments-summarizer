@@ -22,24 +22,25 @@ function PureSuggestedActions({
   const { sendMessage } = useChatActions<ChatMessage>();
   const suggestedActions = [
     {
-      title: "What are the advantages",
-      label: "of using Next.js?",
-      action: "What are the advantages of using Next.js?",
+      title: "Summarize comments",
+      label: "from a Hacker News post",
+      action: "Summarize the comments from this Hacker News post",
     },
     {
-      title: "Write code to",
-      label: `demonstrate djikstra's algorithm`,
-      action: `Write code to demonstrate djikstra's algorithm`,
+      title: "Get the top comments",
+      label: "from this HN discussion",
+      action: "Get the top comments from this HN discussion",
     },
     {
-      title: "Help me write an essay",
-      label: "about silicon valley",
-      action: "Help me write an essay about silicon valley",
+      title: "Analyze the sentiment",
+      label: "of HN comments",
+      action:
+        "Analyze the sentiment of the comments from this Hacker News post",
     },
     {
-      title: "What is the weather",
-      label: "in San Francisco?",
-      action: "What is the weather in San Francisco?",
+      title: "Extract key points",
+      label: "from HN comment thread",
+      action: "Extract the key points from this Hacker News comment thread",
     },
   ];
 

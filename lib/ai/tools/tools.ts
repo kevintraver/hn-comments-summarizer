@@ -3,6 +3,7 @@ import type { FileUIPart, ModelMessage } from "ai";
 import { codeInterpreter } from "@/lib/ai/tools/code-interpreter";
 import { createDocumentTool } from "@/lib/ai/tools/create-document";
 import { generateImage } from "@/lib/ai/tools/generate-image";
+import { getHnComments } from "@/lib/ai/tools/get-hn-comments";
 import { getWeather } from "@/lib/ai/tools/get-weather";
 import { readDocument } from "@/lib/ai/tools/read-document";
 import { requestSuggestions } from "@/lib/ai/tools/request-suggestions";
@@ -33,6 +34,7 @@ export function getTools({
 }) {
   return {
     getWeather,
+    getHnComments,
     createDocument: createDocumentTool({
       session,
       dataStream,

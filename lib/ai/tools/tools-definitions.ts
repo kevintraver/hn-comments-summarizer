@@ -56,6 +56,11 @@ export const toolsDefinitions: Record<ToolName, ToolDefinition> = {
     description: "Research a topic",
     cost: 50,
   },
+  getHnComments: {
+    name: "getHnComments",
+    description: "Fetch Hacker News comments for a given item ID or URL",
+    cost: 1,
+  },
 };
 
 export const allTools = toolNameSchema.options;

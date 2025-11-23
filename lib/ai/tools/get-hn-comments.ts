@@ -55,11 +55,14 @@ const processComments = (item: HNItem): HNComment | null => {
 };
 
 export const getHnComments = tool({
-  description: "Fetch Hacker News comments for a given item ID or URL",
+  description:
+    "Fetch Hacker News comments for a given item URL (preferred) or ID. The tool will automatically extract the item ID from URLs like https://news.ycombinator.com/item?id=12345678",
   inputSchema: z.object({
     itemId: z
       .union([z.string(), z.number()])
-      .describe("The Hacker News item ID or URL"),
+      .describe(
+        "The Hacker News item URL (preferred, e.g., https://news.ycombinator.com/item?id=12345678) or numeric item ID"
+      ),
   }),
   execute: async ({ itemId }: { itemId: string | number }) => {
     let id = itemId;
